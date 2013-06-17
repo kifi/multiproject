@@ -5,3 +5,4 @@
 GET   /serviceB          controllers.serviceB.Application.main()
 GET   /serviceB/lottery  controllers.serviceB.Application.lottery()
 
+->  / common.Routes

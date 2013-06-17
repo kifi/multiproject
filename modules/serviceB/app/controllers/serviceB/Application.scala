@@ -1,4 +1,4 @@
-package controllers
+package controllers.serviceB
 
 import play.api._
 import play.api.mvc._

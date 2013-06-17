@@ -1,0 +1,7 @@
+
+# Note that you do not need to prefix routes or controller packages with the service name.
+# Doing so, however, can make code management much easier.
+
+GET   /serviceB          controllers.serviceB.Application.main()
+GET   /serviceB/lottery  controllers.serviceB.Application.lottery()
+

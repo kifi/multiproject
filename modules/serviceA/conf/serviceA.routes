@@ -1,0 +1,12 @@
+
+GET   /                  controllers.serviceA.Application.home()
+
+
+# Note that you do not need to prefix routes or controller packages with the service name.
+# Doing so, however, can make code management much easier.
+
+GET   /serviceA          controllers.serviceA.Application.main()
+GET   /serviceA/:name    controllers.serviceA.Application.greet(name: String ?= "World")
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.at(path="/public", file)

@@ -25,19 +25,22 @@ object ApplicationBuild extends Build {
   val common = play.Project("common", appVersion, commonDependencies, path = file("modules/common")).settings(
     // Add common settings here
     scalacOptions ++= scalaBuildOptions,
-    sources in doc in Compile := List()   
+    sources in doc in Compile := List(),
+    javaOptions in Test += "-Dconfig.resource=common-application.conf"
   )
 
   val serviceA = play.Project("serviceA", appVersion, commonDependencies ++ serviceADependencies, path = file("modules/serviceA")).settings(
     // Add serviceA settings here      
     scalacOptions ++= scalaBuildOptions,
-    sources in doc in Compile := List()
+    sources in doc in Compile := List(),
+    javaOptions in Test += "-Dconfig.resource=serviceA-application.conf"
   ).dependsOn(common % "test->test;compile->compile").aggregate(common)
 
   val serviceB = play.Project("serviceB", appVersion, commonDependencies ++ serviceBDependencies, path = file("modules/serviceB")).settings(
     // Add serviceB settings here
     scalacOptions ++= scalaBuildOptions,
-    sources in doc in Compile := List()
+    sources in doc in Compile := List(),
+    javaOptions in Test += "-Dconfig.resource=serviceB-application.conf"
   ).dependsOn(common % "test->test;compile->compile").aggregate(common)
 
 

@@ -1,6 +1,6 @@
 import sbt._
 import Keys._
-import play.Project._
+import play.PlayImport._
 
 object ApplicationBuild extends Build {
 
@@ -22,22 +22,27 @@ object ApplicationBuild extends Build {
     "-language:existentials", "-language:experimental.macros", "-Xmax-classfile-name", "140")
 
 
-  val common = play.Project("common", appVersion, commonDependencies, path = file("modules/common")).settings(
+  val common = Project("common", file("modules/common")).enablePlugins(play.PlayScala).settings(
     // Add common settings here
+    version := appVersion,
     scalacOptions ++= scalaBuildOptions,
     sources in doc in Compile := List(),
     javaOptions in Test += "-Dconfig.resource=common-application.conf"
   )
 
-  val serviceA = play.Project("serviceA", appVersion, commonDependencies ++ serviceADependencies, path = file("modules/serviceA")).settings(
-    // Add serviceA settings here      
+  val serviceA = Project("serviceA", file("modules/serviceA")).enablePlugins(play.PlayScala).settings(
+    // Add serviceA settings here
+    version := appVersion,
+    libraryDependencies ++= commonDependencies,
     scalacOptions ++= scalaBuildOptions,
     sources in doc in Compile := List(),
     javaOptions in Test += "-Dconfig.resource=serviceA-application.conf"
   ).dependsOn(common % "test->test;compile->compile").aggregate(common)
 
-  val serviceB = play.Project("serviceB", appVersion, commonDependencies ++ serviceBDependencies, path = file("modules/serviceB")).settings(
+  val serviceB = Project("serviceB", file("modules/serviceB")).enablePlugins(play.PlayScala).settings(
     // Add serviceB settings here
+    version := appVersion,
+    libraryDependencies ++= commonDependencies,
     scalacOptions ++= scalaBuildOptions,
     sources in doc in Compile := List(),
     javaOptions in Test += "-Dconfig.resource=serviceB-application.conf"
@@ -46,7 +51,9 @@ object ApplicationBuild extends Build {
 
   // The default SBT project is based on the first project alphabetically. To force sbt to use this one,
   // we prefit it with 'aaa'
-  val aaaMultiProject = play.Project("multiproject", appVersion, commonDependencies ++ serviceADependencies ++ serviceBDependencies).settings(
+  val aaaMultiProject = Project("multiproject", file(".")).settings(
+    version := appVersion,
+    libraryDependencies ++= commonDependencies,
     // This project runs both services together, which is mostly useful in development mode.
     scalacOptions ++= scalaBuildOptions,
     sources in doc in Compile := List()

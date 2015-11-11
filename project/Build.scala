@@ -1,6 +1,6 @@
 import sbt._
 import sbt.Keys._
-import play.PlayImport._
+import play.sbt.PlayImport._
 
 object ApplicationBuild extends Build {
 
@@ -12,8 +12,7 @@ object ApplicationBuild extends Build {
   val commonDependencies = Seq(
     // Add your project dependencies here,
     jdbc,
-    //anorm
-    "com.typesafe.play" %% "anorm" % "2.4.0",    //AKa101115
+    "com.typesafe.play" %% "anorm" % "2.4.0",
     specs2 % Test
   )
   val serviceADependencies = Seq() // You can have service specific dependencies

@@ -16,10 +16,10 @@ class ApplicationSpec extends Specification {
   val modulePath = new File("./modules/common/")
   
   "CommonApplication" should {
-    
+
     "send 404 on a bad request" in {
       running(FakeApplication(path = modulePath)) {
-        route(FakeRequest(GET, "/boum")) must beNone        
+        route(FakeRequest(GET, "/boum")) must beNone    // tbd. does not pass after Play 2.4
       }
     }
     

@@ -1,6 +1,6 @@
 import sbt._
-import Keys._
-import play.PlayImport._
+import sbt.Keys._
+import play.sbt.PlayImport._
 
 object ApplicationBuild extends Build {
 
@@ -12,7 +12,8 @@ object ApplicationBuild extends Build {
   val commonDependencies = Seq(
     // Add your project dependencies here,
     jdbc,
-    anorm
+    "com.typesafe.play" %% "anorm" % "2.4.0",
+    specs2 % Test
   )
   val serviceADependencies = Seq() // You can have service specific dependencies
   val serviceBDependencies = Seq()
@@ -25,6 +26,7 @@ object ApplicationBuild extends Build {
   val common = Project("common", file("modules/common")).enablePlugins(play.PlayScala).settings(
     // Add common settings here
     version := appVersion,
+    libraryDependencies += specs2 % Test,
     scalacOptions ++= scalaBuildOptions,
     sources in doc in Compile := List(),
     javaOptions in Test += "-Dconfig.resource=common-application.conf"
@@ -50,7 +52,7 @@ object ApplicationBuild extends Build {
 
 
   // The default SBT project is based on the first project alphabetically. To force sbt to use this one,
-  // we prefit it with 'aaa'
+  // we prefix it with 'aaa'
   val aaaMultiProject = Project("multiproject", file(".")).settings(
     version := appVersion,
     libraryDependencies ++= commonDependencies,
